@@ -13,19 +13,56 @@ namespace corecrud.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly UsersContext _context;
+
+        public HomeController(ILogger<HomeController> logger, UsersContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var list = _context.Users.ToList();
+            return View(list);
         }
 
-        public IActionResult Privacy()
+        public async Task<IActionResult> Delete(int Id)
         {
-            return View();
+            var user = await _context.Users.FindAsync(Id);
+            _context.Remove(user);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        public async Task<IActionResult> Create(Users user)
+        {
+            if (user.Id == 0)
+            {
+                await _context.AddAsync(user);
+            }
+            else
+            {
+                _context.Update(user);
+            }
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult User(int? Id)
+        {
+            Users user;
+            if (Id.HasValue)
+            {
+                user = _context.Users.Find(Id);
+
+            }
+            else
+            {
+                user = new Users();
+            }
+            return View(user);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
