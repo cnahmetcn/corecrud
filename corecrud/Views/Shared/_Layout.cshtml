@@ -1,4 +1,14 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Localization;
+@inject Microsoft.AspNetCore.Mvc.Localization.IViewLocalizer localizer
+@inject Microsoft.Extensions.Options.IOptions<Microsoft.AspNetCore.Builder.RequestLocalizationOptions> locOptions
+@{
+    var culture = Context.Features.Get<IRequestCultureFeature>();
+    var returnUrl = string.IsNullOrWhiteSpace(Context.Request.Path) ? "~/" : $"~{Context.Request.Path.Value}{Context.Request.QueryString}";
+    var cultureList = locOptions.Value.SupportedUICultures.Select(x => new SelectListItem { Value = x.Name, Text = localizer.GetString(x.Name) }).ToList();
+}
+
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,7 +21,8 @@
     <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">corecrud</a>
+                <a class="navbar-brand" href="/@culture.RequestCulture.Culture.Name/Home/Index">CRUD with Language</a>
+
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -19,13 +30,16 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-dark" href="/@culture.RequestCulture.Culture.Name/Home/Index">@localizer["home"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="New">Create</a>
+                            <a class="nav-link text-dark" href="/@culture.RequestCulture.Culture.Name/Home/New">@localizer["new"]</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="List">List</a>
+                            <a class="nav-link text-dark" href="/@culture.RequestCulture.Culture.Name/Home/List">@localizer["list"]</a>
+                        </li>
+                        <li>
+                            @await Html.PartialAsync("_Culture")
                         </li>
                     </ul>
                 </div>
@@ -40,7 +54,7 @@
 
     <footer class="border-top footer text-muted">
         <div class="container">
-            &copy; 2021 - ASP.NET Core MVC CRUD & Globalization - Localization Example - <a href="https://github.com/cnahmetcn">Ahmet Can</a> 
+            &copy; 2021 - ASP.NET Core MVC CRUD & Globalization - Localization Example - <a href="https://github.com/cnahmetcn">Ahmet Can</a>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

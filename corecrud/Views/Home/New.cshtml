@@ -1,28 +1,30 @@
 ﻿@model corecrud.Models.Users
+@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
 @{
     ViewData["Title"] = "New User";
 }
-<h1>@ViewData["Title"]</h1>
+<h1>@ViewLocalizer["newuser"]</h1>
 
 <form method="POST" asp-action="Create" autocomplete="off">
     <div class="form-group">
         <input type="hidden" asp-for="Id">
-        <p>Name: <input type="text" asp-for="Name" class="form-control"> </p>
+        <p>@ViewLocalizer["name"]: <input type="text" asp-for="Name" class="form-control"> </p>
     </div>
     <div class="form-group">
-        <p>Surname: <input type="text" asp-for="Surname" class="form-control"> </p>
+        <p>@ViewLocalizer["surname"]: <input type="text" asp-for="Surname" class="form-control"> </p>
     </div>
     <div class="form-group">
-        <p> Age: <input type="text" asp-for="Age" class="form-control"> </p>
+        <p> @ViewLocalizer["age"]: <input type="text" asp-for="Age" class="form-control"> </p>
     </div>
     <div class="form-group">
         @if (Model.Id == 0)
         {
-            <button type="submit" class="btn btn-primary">Create</button>
+        <button type="submit" class="btn btn-primary">@ViewLocalizer["create"]</button>
         }
         else
         {
-            <button type="submit" class="btn btn-primary">Update</button>
+    <button type="submit" class="btn btn-primary">@ViewLocalizer["update"]</button>
         }
     </div>
 </form>

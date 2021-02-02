@@ -1,9 +1,10 @@
-﻿@model IEnumerable<corecrud.Models.Users>
+﻿@using Microsoft.AspNetCore.Mvc.Localization
+@inject IViewLocalizer ViewLocalizer
 @{
     ViewData["Title"] = "Home Page";
 }
 
-<a class="btn btn-success" asp-action="User" asp-route-id="null">Create</a>
-
-
-Welcome
+<div>
+    <h3>@ViewLocalizer["hi"],</h3>
+    <p>@ViewLocalizer["message"].</p>
+</div>

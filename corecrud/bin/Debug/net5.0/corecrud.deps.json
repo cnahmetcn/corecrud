@@ -314,6 +314,14 @@
         "runtime": {
           "corecrud.dll": {}
         },
+        "resources": {
+          "en/corecrud.resources.dll": {
+            "locale": "en"
+          },
+          "tr/corecrud.resources.dll": {
+            "locale": "tr"
+          }
+        },
         "compile": {
           "corecrud.dll": {}
         }
