@@ -23,6 +23,11 @@ namespace corecrud.Controllers
 
         public IActionResult Index()
         {
+            return View();
+        }
+
+        public IActionResult List()
+        {
             var list = _context.Users.ToList();
             return View(list);
         }
@@ -32,7 +37,7 @@ namespace corecrud.Controllers
             var user = await _context.Users.FindAsync(Id);
             _context.Remove(user);
             await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(List));
         }
 
         public async Task<IActionResult> Create(Users user)
@@ -47,10 +52,10 @@ namespace corecrud.Controllers
             }
             await _context.SaveChangesAsync();
 
-            return RedirectToAction(nameof(Index));
+            return RedirectToAction(nameof(List));
         }
 
-        public IActionResult User(int? Id)
+        public IActionResult New(int? Id)
         {
             Users user;
             if (Id.HasValue)
